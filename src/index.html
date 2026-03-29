@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CalcpadCE — Structural Engineering Calculations</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #f3f4f6;
+            color: #374151;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ── Header ── */
+        header {
+            background: #fff;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand img { height: 3em; }
+
+        .brand h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+            letter-spacing: -0.3px;
+        }
+
+        .brand span {
+            font-size: 12px;
+            color: #6b7280;
+            font-weight: 400;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        /* ── Buttons ── */
+        button {
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            padding: 7px 16px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-primary {
+            background: #e8501a;
+            color: #fff;
+        }
+        .btn-primary:hover { background: #d0440f; }
+
+        .btn-ghost {
+            background: transparent;
+            color: #6b7280;
+            border: 1px solid #d1d5db;
+        }
+        .btn-ghost:hover {
+            background: #f9fafb;
+            color: #374151;
+        }
+
+        .btn-download {
+            background: #111827;
+            color: #fff;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            padding: 10px 24px;
+        }
+        .btn-download:hover { background: #1f2937; }
+
+        .downloads {
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            padding: 32px 24px;
+            flex-shrink: 0;
+        }
+
+        .downloads-inner {
+            max-width: 720px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .downloads h2 {
+            font-size: 16px;
+            color: #111827;
+            margin-bottom: 12px;
+            font-weight: 700;
+        }
+
+        .downloads p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #6b7280;
+            margin-bottom: 16px;
+        }
+
+        .download-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .download-card {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: left;
+        }
+
+        .download-card h3 {
+            font-size: 14px;
+            color: #111827;
+            margin-bottom: 6px;
+        }
+
+        .download-card p {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            .download-cards { grid-template-columns: 1fr; }
+        }
+
+        button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* ── Editor layout ── */
+        .editor {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 60vh;
+            min-height: 200px;
+            overflow: hidden;
+        }
+
+        .resize-handle {
+            height: 6px;
+            background: #d1d5db;
+            cursor: ns-resize;
+            transition: background 0.15s;
+        }
+        .resize-handle:hover,
+        .resize-handle.active {
+            background: #e8501a;
+        }
+
+        .pane {
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            border-right: 1px solid #e5e7eb;
+        }
+        .pane:last-child { border-right: none; }
+
+        .pane-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 16px;
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+        }
+
+        textarea {
+            flex: 1;
+            width: 100%;
+            padding: 16px;
+            background: #fff;
+            color: #1f2937;
+            border: none;
+            resize: none;
+            font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            outline: none;
+            tab-size: 4;
+        }
+
+        textarea::placeholder { color: #9ca3af; }
+
+        .result-frame {
+            flex: 1;
+            background: #fff;
+            overflow: auto;
+        }
+
+        .result-frame .empty-state {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #9ca3af;
+            font-size: 14px;
+        }
+
+        /* ── Status bar ── */
+        #status {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 500;
+            display: none;
+        }
+        #status.success { background: #ecfdf5; color: #065f46; }
+        #status.error   { background: #fef2f2; color: #991b1b; }
+        #status.loading  { background: #eff6ff; color: #1e40af; }
+
+        /* ── Settings drawer ── */
+        .settings-drawer {
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+            flex-shrink: 0;
+        }
+
+        .settings-drawer summary {
+            cursor: pointer;
+            padding: 10px 16px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            list-style: none;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .settings-drawer summary::-webkit-details-marker { display: none; }
+        .settings-drawer summary::before { content: '\25B8'; font-size: 11px; }
+        .settings-drawer[open] summary::before { content: '\25BE'; }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px 24px;
+            padding: 0 16px 16px;
+        }
+
+        .setting-group h4 {
+            font-size: 11px;
+            font-weight: 700;
+            color: #e8501a;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .field { margin-bottom: 8px; }
+
+        .field label {
+            display: block;
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 4px;
+        }
+
+        .field select,
+        .field input[type="number"] {
+            width: 100%;
+            padding: 5px 8px;
+            background: #fff;
+            color: #1f2937;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 13px;
+            font-family: inherit;
+        }
+        .field select:focus,
+        .field input[type="number"]:focus {
+            border-color: #e8501a;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(232, 80, 26, 0.15);
+        }
+
+        .field-check {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 6px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+        .field-check input[type="checkbox"] { accent-color: #e8501a; }
+
+        .settings-actions {
+            display: flex;
+            gap: 8px;
+            padding: 4px 16px 16px;
+        }
+
+        /* ── About section ── */
+        .about {
+            background: #fff;
+            border-top: 1px solid #e5e7eb;
+            padding: 32px 24px;
+            flex-shrink: 0;
+        }
+
+        .about-inner {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .about h2 {
+            font-size: 16px;
+            color: #111827;
+            margin-bottom: 16px;
+            font-weight: 700;
+        }
+
+        .about p {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #6b7280;
+            margin-bottom: 12px;
+        }
+
+        .about strong { color: #e8501a; font-weight: 600; }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .editor { grid-template-columns: 1fr; }
+            .pane { border-right: none; border-bottom: 1px solid #e5e7eb; }
+            .pane:first-child { max-height: 40vh; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <img src="logo.svg" alt="CalcpadCE">
+            <div>
+                <h1>CalcpadCE</h1>
+                <span>Open-source mathematical and engineering calculations — Community Edition</span>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button onclick="clearInput()" class="btn-ghost">Clear</button>
+            <button onclick="convertToHtml()" class="btn-primary" id="convertBtn">Convert</button>
+        </div>
+    </header>
+
+    <div id="status" style="display: none;"></div>
+
+    <div class="editor">
+        <div class="pane">
+            <div class="pane-header">Input</div>
+            <textarea id="calcpadInput" placeholder="Enter Calcpad expressions..."></textarea>
+        </div>
+        <div class="pane">
+            <div class="pane-header">Result</div>
+            <div class="result-frame" id="resultFrame">
+                <div class="empty-state">Enter code and press Convert</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="resize-handle" id="resizeHandle"></div>
+
+    <details class="settings-drawer">
+        <summary>Settings</summary>
+        <div class="settings-grid">
+            <div class="setting-group">
+                <h4>Math</h4>
+                <div class="field">
+                    <label for="decimals">Decimal Places</label>
+                    <input type="number" id="decimals" min="0" max="15" value="6">
+                </div>
+                <div class="field">
+                    <label for="degrees">Angle Units</label>
+                    <select id="degrees">
+                        <option value="0">Radians</option>
+                        <option value="1">Degrees</option>
+                        <option value="2">Gradians</option>
+                    </select>
+                </div>
+                <label class="field-check"><input type="checkbox" id="isComplex"> Complex Numbers</label>
+                <label class="field-check"><input type="checkbox" id="substitute" checked> Substitution</label>
+                <label class="field-check"><input type="checkbox" id="formatEquations" checked> Format Equations</label>
+            </div>
+
+            <div class="setting-group">
+                <h4>Plot</h4>
+                <div class="field">
+                    <label for="colorScale">Color Scale</label>
+                    <select id="colorScale">
+                        <option value="Rainbow" selected>Rainbow</option>
+                        <option value="Gray">Gray</option>
+                        <option value="Terrain">Terrain</option>
+                        <option value="VioletToYellow">Violet to Yellow</option>
+                        <option value="Blues">Blues</option>
+                        <option value="BlueToRed">Blue to Red</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="lightDirection">Light Direction</label>
+                    <select id="lightDirection">
+                        <option value="NorthWest" selected>North West</option>
+                        <option value="North">North</option>
+                        <option value="NorthEast">North East</option>
+                        <option value="East">East</option>
+                        <option value="SouthEast">South East</option>
+                        <option value="South">South</option>
+                        <option value="SouthWest">South West</option>
+                        <option value="West">West</option>
+                    </select>
+                </div>
+                <label class="field-check"><input type="checkbox" id="shadows" checked> Shadows</label>
+                <label class="field-check"><input type="checkbox" id="vectorGraphics"> Vector Graphics</label>
+            </div>
+
+            <div class="setting-group">
+                <h4>Display</h4>
+                <div class="field">
+                    <label for="theme">Theme</label>
+                    <select id="theme">
+                        <option value="light" selected>Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="settings-actions">
+            <button onclick="resetSettings()" class="btn-ghost">Reset Settings</button>
+        </div>
+    </details>
+
+    <section class="downloads">
+        <div class="downloads-inner">
+            <h2>Get Calcpad for Your Desktop</h2>
+            <div class="download-cards">
+                <div class="download-card">
+                    <h3>Calcpad Desktop (Windows)</h3>
+                    <p>The last open-source release of the original Calcpad desktop application. A fully featured Windows app for structural engineering calculations.</p>
+                    <a href="https://github.com/imartincei/CalcpadCE/releases/tag/v7.6.2" class="btn-download" target="_blank" rel="noopener">&#11015; Download Desktop</a>
+                </div>
+                <div class="download-card">
+                    <h3>CalcpadCE for VS Code</h3>
+                    <p>The community-driven VS Code extension bringing Calcpad to your favorite editor. Cross-platform, actively developed, and open source.</p>
+                    <a href="https://github.com/imartincei/CalcpadCE/releases/tag/vscode-0.1.4" class="btn-download" target="_blank" rel="noopener">&#11015; Get Extension</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about">
+        <div class="about-inner">
+            <h2>What Happened to the Original Calcpad?</h2>
+            <p>Following a shift to a closed-source model by its original creator, the public repository and the website for Calcpad were taken offline.</p>
+            <p>Fortunately, with the original author's blessing, our community stepped up to fork the project and continue its open-source development. We restored the final open-source release to officially launch <strong>CalcpadCE</strong> as a free, community-driven continuation of the software.</p>
+            <p>Our collective goal is to maintain and grow this incredible tool, ensuring it remains freely available for the professionals who rely on it.</p>
+            <p>As we evolve the software, we are improving the core language by adding features like strings and keyword arguments to simplify complex coding. We are also focused on modernizing the overall development experience with enhanced tooling, including dedicated editor extensions.</p>
+            <p>Whether you want to contribute code, report issues, or simply spread the word &mdash; we invite you to join us and help CalcpadCE thrive!</p>
+        </div>
+    </section>
+
+    <script>
+        const apiBaseUrl = 'https://api.calcpad-ce.org';
+
+        let _lastLine = -1;
+        let _lastText = '';
+        let _convertTimer = null;
+        let _isConverting = false;
+
+        function getLineNumber(textarea) {
+            const text = textarea.value.substring(0, textarea.selectionStart);
+            return text.split('\n').length;
+        }
+
+        function onCursorMove() {
+            const textarea = document.getElementById('calcpadInput');
+            const currentLine = getLineNumber(textarea);
+            const currentText = textarea.value;
+            if (currentLine !== _lastLine && _lastLine !== -1 && currentText !== _lastText) {
+                _lastLine = currentLine;
+                _lastText = currentText;
+                localStorage.setItem('calcpadInput', currentText);
+                scheduleConvert();
+            } else {
+                _lastLine = currentLine;
+            }
+        }
+
+        function scheduleConvert() {
+            if (_convertTimer) clearTimeout(_convertTimer);
+            _convertTimer = setTimeout(() => {
+                if (!_isConverting) convertToHtml(true);
+            }, 300);
+        }
+
+        function showStatus(message, type) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+            statusDiv.style.display = 'block';
+
+            if (type === 'success' || type === 'error') {
+                setTimeout(() => {
+                    statusDiv.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        function clearStatus() {
+            document.getElementById('status').style.display = 'none';
+        }
+
+        function getSettingsFromForm() {
+            return {
+                math: {
+                    decimals: parseInt(document.getElementById('decimals').value),
+                    degrees: parseInt(document.getElementById('degrees').value),
+                    isComplex: document.getElementById('isComplex').checked,
+                    substitute: document.getElementById('substitute').checked,
+                    formatEquations: document.getElementById('formatEquations').checked
+                },
+                plot: {
+                    colorScale: document.getElementById('colorScale').value,
+                    lightDirection: document.getElementById('lightDirection').value,
+                    shadows: document.getElementById('shadows').checked,
+                    vectorGraphics: document.getElementById('vectorGraphics').checked,
+                    isAdaptive: true,
+                    screenScaleFactor: 2.0
+                },
+                units: "m",
+                output: {
+                    format: "html"
+                }
+            };
+        }
+
+        function getTheme() {
+            return document.getElementById('theme').value;
+        }
+
+        async function convertToHtml(auto) {
+            const input = document.getElementById('calcpadInput').value.trim();
+
+            if (!input) return;
+
+            const convertBtn = document.getElementById('convertBtn');
+            const resultFrame = document.getElementById('resultFrame');
+
+            if (!auto) {
+                convertBtn.disabled = true;
+                convertBtn.textContent = 'Converting...';
+            }
+            _isConverting = true;
+
+            try {
+                const settings = getSettingsFromForm();
+
+                const requestBody = {
+                    content: input,
+                    settings: settings,
+                    theme: getTheme()
+                };
+
+                const response = await fetch(`${apiBaseUrl}/api/calcpad/convert`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(requestBody)
+                });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP ${response.status}: ${errorText}`);
+                }
+
+                const htmlContent = await response.text();
+
+                const iframe = document.createElement('iframe');
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.border = 'none';
+
+                resultFrame.innerHTML = '';
+                resultFrame.appendChild(iframe);
+
+                iframe.contentDocument.open();
+                iframe.contentDocument.write(htmlContent);
+                iframe.contentDocument.close();
+
+                localStorage.setItem('calcpadInput', input);
+
+            } catch (error) {
+                console.error('Error:', error);
+
+                resultFrame.innerHTML = `
+                    <div style="padding: 20px; color: #991b1b; background: #fef2f2; border-left: 3px solid #e8501a; margin: 16px;">
+                        <strong>Error:</strong> ${error.message}
+                    </div>
+                `;
+            } finally {
+                if (!auto) {
+                    convertBtn.disabled = false;
+                    convertBtn.textContent = 'Convert';
+                }
+                _isConverting = false;
+            }
+        }
+
+        function clearInput() {
+            document.getElementById('calcpadInput').value = '';
+            localStorage.removeItem('calcpadInput');
+            document.getElementById('resultFrame').innerHTML =
+                '<div class="empty-state">Enter code and press Convert</div>';
+            clearStatus();
+        }
+
+        function resetSettings() {
+            document.getElementById('decimals').value = '6';
+            document.getElementById('degrees').value = '0';
+            document.getElementById('isComplex').checked = false;
+            document.getElementById('substitute').checked = true;
+            document.getElementById('formatEquations').checked = true;
+            document.getElementById('colorScale').value = 'Rainbow';
+            document.getElementById('lightDirection').value = 'NorthWest';
+            document.getElementById('shadows').checked = true;
+            document.getElementById('vectorGraphics').checked = false;
+            document.getElementById('theme').value = 'light';
+            saveSettings();
+            showStatus('Settings reset to defaults', 'success');
+            convertToHtml(true);
+        }
+
+        const settingIds = ['decimals', 'degrees', 'isComplex', 'substitute', 'formatEquations',
+            'colorScale', 'lightDirection', 'shadows', 'vectorGraphics', 'theme'];
+
+        function saveSettings() {
+            const settings = {};
+            settingIds.forEach(id => {
+                const el = document.getElementById(id);
+                settings[id] = el.type === 'checkbox' ? el.checked : el.value;
+            });
+            localStorage.setItem('calcpadSettings', JSON.stringify(settings));
+        }
+
+        function loadSettings() {
+            const stored = localStorage.getItem('calcpadSettings');
+            if (!stored) return;
+            try {
+                const settings = JSON.parse(stored);
+                settingIds.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (id in settings) {
+                        if (el.type === 'checkbox') el.checked = settings[id];
+                        else el.value = settings[id];
+                    }
+                });
+            } catch (e) { /* ignore corrupt data */ }
+        }
+
+        // Drag-to-resize editor
+        (function() {
+            const handle = document.getElementById('resizeHandle');
+            const editor = document.querySelector('.editor');
+            // Overlay to block iframes from stealing mouse events during drag
+            const overlay = document.createElement('div');
+            overlay.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:9999;cursor:ns-resize;display:none;';
+            document.body.appendChild(overlay);
+            // Restore saved height
+            const savedH = localStorage.getItem('calcpadEditorHeight');
+            if (savedH) editor.style.height = savedH;
+            let startY, startH;
+            handle.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+                startY = e.clientY;
+                startH = editor.offsetHeight;
+                handle.classList.add('active');
+                overlay.style.display = 'block';
+                document.addEventListener('mousemove', onDrag);
+                document.addEventListener('mouseup', stopDrag);
+            });
+            function onDrag(e) {
+                const newH = Math.max(200, startH + e.clientY - startY);
+                editor.style.height = newH + 'px';
+            }
+            function stopDrag() {
+                handle.classList.remove('active');
+                overlay.style.display = 'none';
+                localStorage.setItem('calcpadEditorHeight', editor.style.height);
+                document.removeEventListener('mousemove', onDrag);
+                document.removeEventListener('mouseup', stopDrag);
+            }
+        })();
+
+        // Load saved input or default, and set up cursor tracking
+        window.onload = function() {
+            loadSettings();
+            const saved = localStorage.getItem('calcpadInput');
+            document.getElementById('calcpadInput').value = saved || '1 + 1\n\nf(x) = x^2 - 5*x + 3\n$Plot{f(x) @ x = -1:6}';
+            convertToHtml(true);
+
+            const textarea = document.getElementById('calcpadInput');
+            _lastText = textarea.value;
+            textarea.addEventListener('keyup', onCursorMove);
+            textarea.addEventListener('mouseup', onCursorMove);
+
+            // Re-convert and save when any setting changes
+            settingIds.forEach(id => {
+                document.getElementById(id).addEventListener('change', () => {
+                    saveSettings();
+                    convertToHtml(true);
+                });
+            });
+        };
+
+        // Keyboard shortcut: Ctrl+Enter to convert
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                e.preventDefault();
+                convertToHtml();
+            }
+        });
+    </script>
+
+    <footer style="text-align:center; padding:24px 16px; color:#6b7280; font-size:13px; border-top:1px solid #e5e7eb;">
+        &copy; 2026 CalcpadCE Community &middot; <a href="https://github.com/fwolter/CalcpadCE-Website" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">Edit this page</a>
+    </footer>
+</body>
+</html>

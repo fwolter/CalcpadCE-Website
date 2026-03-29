@@ -1,0 +1,33 @@
+services:
+  calcpad-website:
+    image: ghcr.io/fwolter/calcpadce-website:latest
+    restart: unless-stopped
+    labels:
+      - traefik.http.routers.calcpadce-website.rule=Host(`calcpad-ce.org`) || Host(`www.calcpad-ce.org`)
+      - traefik.http.routers.calcpadce-website.entrypoints=websecure
+      - traefik.http.routers.calcpadce-website.tls.certresolver=letsencrypt
+      - traefik.http.services.calcpadce-website.loadbalancer.server.port=80
+    networks:
+      - traefik
+
+  calcpad-api:
+    image: ghcr.io/fwolter/calcpadce-server:latest
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ASPNETCORE_ENVIRONMENT:-Production}
+      - ASPNETCORE_URLS=http://+:8080
+      - CALCPAD_PORT=8080
+      - CALCPAD_HOST=*
+      - DOTNET_RUNNING_IN_CONTAINER=true
+      - CALCPAD_PUBLIC_MODE=true
+    labels:
+      - traefik.http.routers.calcpadce-api.rule=Host(`api.calcpad-ce.org`)
+      - traefik.http.routers.calcpadce-api.entrypoints=websecure
+      - traefik.http.routers.calcpadce-api.tls.certresolver=letsencrypt
+      - traefik.http.services.calcpadce-api.loadbalancer.server.port=8080
+    networks:
+      - traefik
+
+networks:
+  traefik:
+    external: true
