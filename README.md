@@ -1,4 +1,4 @@
-# Calcpad CE Website
+# CalcpadCE Website
 
 Static website for [calcpad-ce.org](https://calcpad-ce.org), served via Nginx in a Docker container.
 
