@@ -395,7 +395,13 @@
             padding: 0 1rem 1rem;
         }
 
-        .setting-group h3 {
+        .setting-group {
+            border: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .setting-group legend {
             font-size: 0.75rem;
             font-weight: 700;
             color: var(--color-accent-text);
@@ -404,6 +410,7 @@
             margin-bottom: 0.75rem;
             padding-bottom: 0.25rem;
             border-bottom: 1px solid var(--color-border);
+            width: 100%;
         }
 
         .field { margin-bottom: 0.5rem; }
@@ -704,8 +711,8 @@
     <details class="settings-drawer">
         <summary>Settings</summary>
         <div class="settings-grid">
-            <div class="setting-group">
-                <h3>Math</h3>
+            <fieldset class="setting-group">
+                <legend>Math</legend>
                 <div class="field">
                     <label for="decimals">Decimal Places</label>
                     <input type="number" id="decimals" min="0" max="15" value="6">
@@ -721,10 +728,10 @@
                 <label class="field-check"><input type="checkbox" id="isComplex"> Complex Numbers</label>
                 <label class="field-check"><input type="checkbox" id="substitute" checked> Substitution</label>
                 <label class="field-check"><input type="checkbox" id="formatEquations" checked> Format Equations</label>
-            </div>
+            </fieldset>
 
-            <div class="setting-group">
-                <h3>Plot</h3>
+            <fieldset class="setting-group">
+                <legend>Plot</legend>
                 <div class="field">
                     <label for="colorScale">Color Scale</label>
                     <select id="colorScale">
@@ -751,10 +758,10 @@
                 </div>
                 <label class="field-check"><input type="checkbox" id="shadows" checked> Shadows</label>
                 <label class="field-check"><input type="checkbox" id="vectorGraphics"> Vector Graphics</label>
-            </div>
+            </fieldset>
 
-            <div class="setting-group">
-                <h3>Display</h3>
+            <fieldset class="setting-group">
+                <legend>Display</legend>
                 <div class="field">
                     <label for="theme">Theme</label>
                     <select id="theme">
@@ -762,7 +769,7 @@
                         <option value="dark">Dark</option>
                     </select>
                 </div>
-            </div>
+            </fieldset>
         </div>
         <div class="settings-actions">
             <button onclick="resetSettings()" class="btn-ghost">Reset Settings</button>
