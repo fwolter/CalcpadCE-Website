@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CalcpadCE — Open-Source Mathematical and Engineering Calculations</title>
+    <title>CalcpadCE â€” Open-Source Mathematical and Engineering Calculations</title>
     <link rel="icon" type="image/png" href="/icons/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/icons/logo.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
@@ -16,7 +16,7 @@
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="CalcpadCE — Open-Source Mathematical and Engineering Calculations">
+    <meta property="og:title" content="CalcpadCE â€” Open-Source Mathematical and Engineering Calculations">
     <meta property="og:description" content="Free, community-driven tool for mathematical and engineering calculations. Try the online editor or download for desktop and VS Code.">
     <meta property="og:url" content="https://calcpad-ce.org/">
     <meta property="og:site_name" content="CalcpadCE">
@@ -44,21 +44,57 @@
     }
     </script>
     <style>
+        :root {
+            /* Brand / accent */
+            --color-accent: oklch(56% 0.18 38);
+            --color-accent-hover: oklch(50% 0.16 38);
+            --color-accent-text: oklch(52% 0.16 39);
+            --color-accent-ring: oklch(56% 0.18 38 / 0.15);
+
+            --color-text-dark-heading: oklch(87% 0.01 258);
+            --color-text-dark: oklch(71% 0.02 261);
+            --color-text-muted: oklch(55% 0.02 264);
+            --color-text: oklch(37% 0.03 260);
+            --color-text-heading: oklch(21% 0.03 265);
+
+            --color-white: oklch(100% 0 0);
+            --color-bg-shaded: oklch(98.5% 0 0);
+            --color-bg-dark: oklch(21% 0.03 265);
+            --color-bg-dark-border: oklch(37% 0.03 260);
+            --color-border: oklch(87% 0.01 258);
+
+            /* Status */
+            --color-success-bg: oklch(98% 0.02 166);
+            --color-success-text: oklch(43% 0.09 167);
+            --color-error-bg: oklch(97% 0.01 17);
+            --color-error-text: oklch(44% 0.16 27);
+            --color-loading-bg: oklch(97% 0.01 255);
+            --color-loading-text: oklch(42% 0.18 266);
+
+            /* Third-party brand */
+            --color-discord: oklch(58% 0.21 274);
+            --color-discord-bg: oklch(96% 0.02 272);
+            --color-forum: oklch(60% 0.13 163);
+            --color-forum-bg: oklch(98% 0.02 166);
+
+            --transition: color 0.15s, background 0.15s;
+        }
+
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #f3f4f6;
-            color: #374151;
+            background: var(--color-bg-shaded);
+            color: var(--color-text);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
         }
 
-        /* ── Header ── */
+        /* Header */
         header {
-            background: #fff;
-            border-bottom: 1px solid #e5e7eb;
+            background: var(--color-white);
+            border-bottom: 1px solid var(--color-border);
             padding: 12px 24px;
             display: flex;
             align-items: center;
@@ -77,13 +113,13 @@
         .brand h1 {
             font-size: 18px;
             font-weight: 700;
-            color: #111827;
+            color: var(--color-text-heading);
             letter-spacing: -0.3px;
         }
 
         .brand span {
             font-size: 12px;
-            color: #6b7280;
+            color: var(--color-text-muted);
             font-weight: 400;
         }
 
@@ -93,7 +129,7 @@
             align-items: center;
         }
 
-        /* ── Buttons ── */
+        /* Buttons */
         button {
             font-family: inherit;
             font-size: 13px;
@@ -102,28 +138,28 @@
             border-radius: 6px;
             padding: 7px 16px;
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: var(--transition);
         }
 
         .btn-primary {
-            background: #c4410e;
-            color: #fff;
+            background: var(--color-accent);
+            color: var(--color-white);
         }
-        .btn-primary:hover { background: #a83609; }
+        .btn-primary:hover { background: var(--color-accent-hover); }
 
         .btn-ghost {
             background: transparent;
-            color: #6b7280;
-            border: 1px solid #d1d5db;
+            color: var(--color-text-muted);
+            border: 1px solid var(--color-border);
         }
         .btn-ghost:hover {
-            background: #f9fafb;
-            color: #374151;
+            background: var(--color-bg-shaded);
+            color: var(--color-text);
         }
 
         .btn-download {
-            background: #111827;
-            color: #fff;
+            background: var(--color-bg-dark);
+            color: var(--color-white);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -133,25 +169,24 @@
             font-weight: 600;
             border-radius: 6px;
             padding: 10px 24px;
+            transition: var(--transition);
         }
-        .btn-download:hover { background: #1f2937; }
+        .btn-download:hover { background: var(--color-accent-hover); }
 
-        .downloads {
-            background: #f9fafb;
-            border-top: 1px solid #e5e7eb;
-            padding: 32px 24px;
+        section {
+            border-top: 1px solid var(--color-border);
+            padding: 32px max(24px, calc((100% - 720px) / 2));
             flex-shrink: 0;
         }
 
-        .downloads-inner {
-            max-width: 720px;
-            margin: 0 auto;
+        .downloads {
+            background: var(--color-bg-shaded);
             text-align: center;
         }
 
         h2 {
             font-size: 20px;
-            color: #111827;
+            color: var(--color-text-heading);
             margin-bottom: 12px;
             font-weight: 700;
         }
@@ -159,7 +194,7 @@
         .downloads p {
             font-size: 14px;
             line-height: 1.7;
-            color: #6b7280;
+            color: var(--color-text-muted);
             margin-bottom: 16px;
         }
 
@@ -171,8 +206,8 @@
         }
 
         .download-card {
-            background: #fff;
-            border: 1px solid #e5e7eb;
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
             border-radius: 8px;
             padding: 20px;
             text-align: left;
@@ -180,19 +215,15 @@
 
         .download-card h3 {
             font-size: 14px;
-            color: #111827;
+            color: var(--color-text-heading);
             margin-bottom: 6px;
         }
 
         .download-card p {
             font-size: 13px;
-            color: #6b7280;
+            color: var(--color-text-muted);
             margin-bottom: 12px;
             line-height: 1.5;
-        }
-
-        @media (max-width: 768px) {
-            .download-cards { grid-template-columns: 1fr; }
         }
 
         button:disabled {
@@ -200,7 +231,7 @@
             cursor: not-allowed;
         }
 
-        /* ── Editor layout ── */
+        /* Editor layout */
         .editor {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -211,20 +242,20 @@
 
         .resize-handle {
             height: 6px;
-            background: #d1d5db;
+            background: var(--color-border);
             cursor: ns-resize;
-            transition: background 0.15s;
+            transition: var(--transition);
         }
         .resize-handle:hover,
         .resize-handle.active {
-            background: #c4410e;
+            background: var(--color-accent);
         }
 
         .pane {
             display: flex;
             flex-direction: column;
             min-height: 0;
-            border-right: 1px solid #e5e7eb;
+            border-right: 1px solid var(--color-border);
         }
         .pane:last-child { border-right: none; }
 
@@ -233,11 +264,11 @@
             align-items: center;
             justify-content: space-between;
             padding: 8px 16px;
-            background: #f9fafb;
-            border-bottom: 1px solid #e5e7eb;
+            background: var(--color-bg-shaded);
+            border-bottom: 1px solid var(--color-border);
             font-size: 12px;
             font-weight: 600;
-            color: #6b7280;
+            color: var(--color-text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             flex-shrink: 0;
@@ -247,8 +278,8 @@
             flex: 1;
             width: 100%;
             padding: 16px;
-            background: #fff;
-            color: #1f2937;
+            background: var(--color-white);
+            color: var(--color-text);
             border: none;
             resize: none;
             font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
@@ -258,11 +289,11 @@
             tab-size: 4;
         }
 
-        textarea::placeholder { color: #9ca3af; }
+        textarea::placeholder { color: var(--color-text-dark); }
 
         .result-frame {
             flex: 1;
-            background: #fff;
+            background: var(--color-white);
             overflow: auto;
         }
 
@@ -271,25 +302,25 @@
             align-items: center;
             justify-content: center;
             height: 100%;
-            color: #9ca3af;
+            color: var(--color-text-dark);
             font-size: 14px;
         }
 
-        /* ── Status bar ── */
+        /* Status bar */
         #status {
             padding: 8px 16px;
             font-size: 13px;
             font-weight: 500;
             display: none;
         }
-        #status.success { background: #ecfdf5; color: #065f46; }
-        #status.error   { background: #fef2f2; color: #991b1b; }
-        #status.loading  { background: #eff6ff; color: #1e40af; }
+        #status.success { background: var(--color-success-bg); color: var(--color-success-text); }
+        #status.error   { background: var(--color-error-bg); color: var(--color-error-text); }
+        #status.loading { background: var(--color-loading-bg); color: var(--color-loading-text); }
 
-        /* ── Settings drawer ── */
+        /* Settings drawer */
         .settings-drawer {
-            background: #f9fafb;
-            border-top: 1px solid #e5e7eb;
+            background: var(--color-bg-shaded);
+            border-top: 1px solid var(--color-border);
             flex-shrink: 0;
         }
 
@@ -298,7 +329,7 @@
             padding: 10px 16px;
             font-size: 12px;
             font-weight: 600;
-            color: #6b7280;
+            color: var(--color-text-muted);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             list-style: none;
@@ -321,12 +352,12 @@
         .setting-group h3 {
             font-size: 11px;
             font-weight: 700;
-            color: #b33d0c;
+            color: var(--color-accent-text);
             text-transform: uppercase;
             letter-spacing: 0.6px;
             margin-bottom: 10px;
             padding-bottom: 6px;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid var(--color-border);
         }
 
         .field { margin-bottom: 8px; }
@@ -334,7 +365,7 @@
         .field label {
             display: block;
             font-size: 12px;
-            color: #6b7280;
+            color: var(--color-text-muted);
             margin-bottom: 4px;
         }
 
@@ -342,18 +373,18 @@
         .field input[type="number"] {
             width: 100%;
             padding: 5px 8px;
-            background: #fff;
-            color: #1f2937;
-            border: 1px solid #d1d5db;
+            background: var(--color-white);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
             border-radius: 4px;
             font-size: 13px;
             font-family: inherit;
         }
         .field select:focus,
         .field input[type="number"]:focus {
-            border-color: #c4410e;
+            border-color: var(--color-accent);
             outline: none;
-            box-shadow: 0 0 0 2px rgba(196, 65, 14, 0.15);
+            box-shadow: 0 0 0 2px var(--color-accent-ring);
         }
 
         .field-check {
@@ -362,9 +393,9 @@
             gap: 6px;
             margin-bottom: 6px;
             font-size: 12px;
-            color: #6b7280;
+            color: var(--color-text-muted);
         }
-        .field-check input[type="checkbox"] { accent-color: #c4410e; }
+        .field-check input[type="checkbox"] { accent-color: var(--color-accent); }
 
         .settings-actions {
             display: flex;
@@ -372,29 +403,21 @@
             padding: 4px 16px 16px;
         }
 
-        /* ── About section ── */
+        /* About section */
         .about {
-            background: #fff;
-            border-top: 1px solid #e5e7eb;
-            padding: 32px 24px;
-            flex-shrink: 0;
-        }
-
-        .about-inner {
-            max-width: 720px;
-            margin: 0 auto;
+            background: var(--color-white);
         }
 
         .about p {
             font-size: 14px;
             line-height: 1.7;
-            color: #6b7280;
+            color: var(--color-text-muted);
             margin-bottom: 12px;
         }
 
-        .about strong { color: #b33d0c; font-weight: 600; }
+        .about strong { color: var(--color-accent-text); font-weight: 600; }
 
-        /* ── Header nav links ── */
+        /* Header nav links */
         .nav-links {
             display: flex;
             gap: 4px;
@@ -408,14 +431,14 @@
             padding: 6px 12px;
             font-size: 13px;
             font-weight: 500;
-            color: #6b7280;
+            color: var(--color-text-muted);
             text-decoration: none;
             border-radius: 6px;
-            transition: color 0.15s, background 0.15s;
+            transition: var(--transition);
         }
         .nav-links a:hover {
-            color: #111827;
-            background: #f3f4f6;
+            color: var(--color-text-heading);
+            background: var(--color-bg-shaded);
         }
         .nav-links a svg {
             width: 16px;
@@ -423,22 +446,16 @@
             flex-shrink: 0;
         }
 
-        /* ── Community section ── */
+        /* Community section */
         .community {
-            background: #fff;
-            border-top: 1px solid #e5e7eb;
-            padding: 48px 24px;
-        }
-
-        .community-inner {
-            max-width: 900px;
-            margin: 0 auto;
+            background: var(--color-white);
+            padding: 48px max(24px, calc((100% - 900px) / 2));
             text-align: center;
         }
 
-        .community > .community-inner > p {
+        .community > p {
             font-size: 14px;
-            color: #6b7280;
+            color: var(--color-text-muted);
             margin-bottom: 28px;
             line-height: 1.6;
         }
@@ -449,20 +466,23 @@
             gap: 20px;
         }
 
-        .community-card {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
+        .community-cards > a {
+            display: block;
+            background: var(--color-bg-shaded);
+            border: 1px solid var(--color-border);
             border-radius: 10px;
             padding: 28px 24px;
             text-align: left;
-            transition: border-color 0.15s, box-shadow 0.15s;
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition), border-color 0.15s, box-shadow 0.15s;
         }
-        .community-card:hover {
-            border-color: #d1d5db;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        .community-cards > a:hover {
+            border-color: var(--color-border);
+            box-shadow: 0 6px 20px oklch(0% 0 0 / 0.08);
         }
 
-        .community-card .card-icon {
+        .community-cards .card-icon {
             width: 40px;
             height: 40px;
             border-radius: 8px;
@@ -471,54 +491,50 @@
             justify-content: center;
             margin-bottom: 16px;
         }
-        .community-card .card-icon svg {
+        .community-cards .card-icon svg {
             width: 22px;
             height: 22px;
         }
-        .community-card .card-icon.github { background: #f3f4f6; color: #111827; }
-        .community-card .card-icon.discord { background: #eef2ff; color: #5865F2; }
-        .community-card .card-icon.forum { background: #ecfdf5; color: #059669; }
+        .community-cards .card-icon.github { background: var(--color-bg-shaded); color: var(--color-text-heading); }
+        .community-cards .card-icon.discord { background: var(--color-discord-bg); color: var(--color-discord); }
+        .community-cards .card-icon.forum { background: var(--color-forum-bg); color: var(--color-forum); }
 
-        .community-card h3 {
+        .community-cards > a h3 {
             font-size: 15px;
-            color: #111827;
+            color: var(--color-text-heading);
             margin-bottom: 8px;
             font-weight: 700;
         }
 
-        .community-card p {
+        .community-cards > a p {
             font-size: 13px;
-            color: #6b7280;
+            color: var(--color-text-muted);
             line-height: 1.6;
             margin-bottom: 16px;
         }
 
-        .community-card .card-link {
+        .community-cards .card-link {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
-            font-size: 13px;
+            gap: 6px;
+            font-size: 14px;
             font-weight: 600;
-            color: #b33d0c;
-            text-decoration: none;
+            color: var(--color-accent-text);
         }
-        .community-card .card-link:hover {
-            text-decoration: underline;
-        }
-        .community-card .card-link::after {
+        .community-cards .card-link::after {
             content: '\2192';
+            display: inline-block;
+            transition: translate 0.15s ease;
+        }
+        .community-cards > a:hover .card-link::after {
+            translate: 4px 0;
         }
 
-        /* ── Footer ── */
+        /* Footer */
         .site-footer {
-            background: #111827;
-            color: #9ca3af;
-            padding: 40px 24px 24px;
-        }
-
-        .footer-inner {
-            max-width: 900px;
-            margin: 0 auto;
+            background: var(--color-bg-dark);
+            color: var(--color-text-dark);
+            padding: 40px max(24px, calc((100% - 900px) / 2)) 24px;
         }
 
         .footer-cols {
@@ -531,20 +547,20 @@
         .footer-brand p {
             font-size: 13px;
             line-height: 1.6;
-            color: #9ca3af;
+            color: var(--color-text-dark);
             margin-top: 8px;
         }
 
         .footer-brand .brand-name {
             font-size: 16px;
             font-weight: 700;
-            color: #fff;
+            color: var(--color-white);
         }
 
         .footer-col h4 {
             font-size: 12px;
             font-weight: 700;
-            color: #d1d5db;
+            color: var(--color-text-dark-heading);
             text-transform: uppercase;
             letter-spacing: 0.5px;
             margin-bottom: 12px;
@@ -556,34 +572,30 @@
 
         .footer-col li { margin-bottom: 8px; }
 
-        .footer-col a {
-            font-size: 13px;
-            color: #9ca3af;
+        .site-footer a {
+            color: var(--color-text-dark);
             text-decoration: none;
-            transition: color 0.15s;
+            transition: var(--transition);
         }
-        .footer-col a:hover { color: #fff; }
+        .site-footer a:hover { color: var(--color-white); }
+
+        .footer-col a { font-size: 13px; }
 
         .footer-bottom {
-            border-top: 1px solid #1f2937;
+            border-top: 1px solid var(--color-bg-dark-border);
             padding-top: 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             font-size: 12px;
-            color: #9ca3af;
+            color: var(--color-text-dark);
         }
 
-        .footer-bottom a {
-            color: #9ca3af;
-            text-decoration: none;
-        }
-        .footer-bottom a:hover { color: #fff; }
-
-        /* ── Responsive ── */
+        /* Responsive */
         @media (max-width: 768px) {
+            .download-cards { grid-template-columns: 1fr; }
             .editor { grid-template-columns: 1fr; }
-            .pane { border-right: none; border-bottom: 1px solid #e5e7eb; }
+            .pane { border-right: none; border-bottom: 1px solid var(--color-border); }
             .pane:first-child { max-height: 40vh; }
             header { flex-wrap: wrap; gap: 12px; }
             .nav-links { order: 3; width: 100%; }
@@ -603,7 +615,7 @@
             <img src="icons/logo.svg" alt="CalcpadCE">
             <div>
                 <h1>CalcpadCE</h1>
-                <span>Open-source mathematical and engineering calculations — Community Edition</span>
+                <span>Open-source mathematical and engineering calculations – Community Edition</span>
             </div>
         </div>
         <nav class="nav-links">
@@ -712,7 +724,6 @@
     </details>
 
     <section class="downloads">
-        <div class="downloads-inner">
             <h2>Get Calcpad for Your Desktop</h2>
             <div class="download-cards">
                 <div class="download-card">
@@ -726,51 +737,46 @@
                     <a href="https://github.com/imartincei/CalcpadCE/releases/tag/vscode-0.1.4" class="btn-download" target="_blank" rel="noopener">&#11015; Get Extension</a>
                 </div>
             </div>
-        </div>
     </section>
 
     <section class="community">
-        <div class="community-inner">
             <h2>Join the Community</h2>
             <p>CalcpadCE is built by engineers, for engineers. Get involved, ask questions, or help shape the future of the project.</p>
             <div class="community-cards">
-                <div class="community-card">
+                <a href="https://github.com/imartincei/CalcpadCE">
                     <div class="card-icon github">
                         <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
                     </div>
                     <h3>Contribute on GitHub</h3>
                     <p>Browse the source code, report issues, submit pull requests, or star the project to show your support.</p>
-                    <a href="https://github.com/imartincei/CalcpadCE" class="card-link" target="_blank" rel="noopener">View repository </a>
-                </div>
-                <div class="community-card">
+                    <span class="card-link">View repository </span>
+                </a>
+                <a href="https://discord.gg/NMttSUhZss">
                     <div class="card-icon discord">
                         <svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.545 2.907a13.227 13.227 0 00-3.257-1.011.05.05 0 00-.052.025c-.141.25-.297.577-.406.833a12.19 12.19 0 00-3.658 0 8.258 8.258 0 00-.412-.833.051.051 0 00-.052-.025c-1.125.194-2.22.534-3.257 1.011a.041.041 0 00-.021.018C.356 6.024-.213 9.047.066 12.032c.001.014.01.028.021.037a13.276 13.276 0 003.995 2.02.05.05 0 00.056-.019c.308-.42.582-.863.818-1.329a.05.05 0 00-.028-.07 8.735 8.735 0 01-1.248-.595.05.05 0 01-.005-.083c.084-.063.168-.129.248-.195a.05.05 0 01.051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 01.053.007c.08.066.164.132.248.195a.05.05 0 01-.004.083c-.398.232-.816.43-1.249.596a.05.05 0 00-.027.07c.24.465.515.909.817 1.329a.05.05 0 00.056.019 13.235 13.235 0 004.001-2.02.049.049 0 00.021-.037c.334-3.451-.559-6.449-2.366-9.106a.034.034 0 00-.02-.019zm-8.198 7.307c-.789 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612zm5.316 0c-.788 0-1.438-.724-1.438-1.612 0-.889.637-1.613 1.438-1.613.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612z"/></svg>
                     </div>
                     <h3>Join the Discord</h3>
                     <p>Ask questions, share your work, get help from other engineers, and chat with the development team in real time.</p>
-                    <a href="https://discord.gg/NMttSUhZss" class="card-link" target="_blank" rel="noopener">Join server </a>
-                </div>
-                <div class="community-card">
+                    <span class="card-link">Join server </span>
+                </a>
+                <a href="https://github.com/imartincei/CalcpadCE/discussions">
                     <div class="card-icon forum">
                         <svg viewBox="0 0 16 16" fill="currentColor"><path d="M1.5 2.75a.25.25 0 01.25-.25h8.5a.25.25 0 01.25.25v5.5a.25.25 0 01-.25.25h-3.5a.75.75 0 00-.53.22L3.5 11.44V9.25a.75.75 0 00-.75-.75h-1a.25.25 0 01-.25-.25v-5.5zM1.75 1A1.75 1.75 0 000 2.75v5.5C0 9.216.784 10 1.75 10H2v1.543a1.457 1.457 0 002.487 1.03L7.061 10h3.189A1.75 1.75 0 0012 8.25v-5.5A1.75 1.75 0 0010.25 1h-8.5zM14.5 4.75a.25.25 0 00-.25-.25h-.5a.75.75 0 010-1.5h.5c.966 0 1.75.784 1.75 1.75v5.5A1.75 1.75 0 0114.25 12H14v1.543a1.457 1.457 0 01-2.487 1.03L9.22 12.28a.75.75 0 011.06-1.06l2.22 2.22v-2.19a.75.75 0 01.75-.75h1a.25.25 0 00.25-.25v-5.5z"/></svg>
                     </div>
                     <h3>Forum &amp; Discussions</h3>
                     <p>Start or join longer-form conversations about features, ideas, best practices, and the future direction of CalcpadCE.</p>
-                    <a href="https://github.com/imartincei/CalcpadCE/discussions" class="card-link" target="_blank" rel="noopener">Browse discussions </a>
-                </div>
+                    <span class="card-link">Browse discussions </span>
+                </a>
             </div>
-        </div>
     </section>
 
     <section class="about">
-        <div class="about-inner">
             <h2>What Happened to the Original Calcpad?</h2>
             <p>Following a shift to a closed-source model by its original creator, the public repository and the website for Calcpad were taken offline.</p>
             <p>Fortunately, with the original author's blessing, our community stepped up to fork the project and continue its open-source development. We restored the final open-source release to officially launch <strong>CalcpadCE</strong> as a free, community-driven continuation of the software.</p>
             <p>Our collective goal is to maintain and grow this incredible tool, ensuring it remains freely available for the professionals who rely on it.</p>
             <p>As we evolve the software, we are improving the core language by adding features like strings and keyword arguments to simplify complex coding. We are also focused on modernizing the overall development experience with enhanced tooling, including dedicated editor extensions.</p>
             <p>Whether you want to contribute code, report issues, or simply spread the word &mdash; we invite you to join us and help CalcpadCE thrive!</p>
-        </div>
     </section>
 
     <script>
@@ -908,7 +914,7 @@
                 console.error('Error:', error);
 
                 resultFrame.innerHTML = `
-                    <div style="padding: 20px; color: #991b1b; background: #fef2f2; border-left: 3px solid #e8501a; margin: 16px;">
+                    <div style="padding: 20px; color: var(--color-error-text); background: var(--color-error-bg); border-left: 3px solid var(--color-accent); margin: 16px;">
                         <strong>Error:</strong> ${error.message}
                     </div>
                 `;
@@ -1037,7 +1043,6 @@
     </script>
 
     <footer class="site-footer">
-        <div class="footer-inner">
             <div class="footer-cols">
                 <div class="footer-brand">
                     <div class="brand-name">CalcpadCE</div>
@@ -1070,7 +1075,6 @@
             <div class="footer-bottom">
                 <span>&copy; {{YEAR}} CalcpadCE Community</span>
             </div>
-        </div>
     </footer>
 </body>
 </html>
