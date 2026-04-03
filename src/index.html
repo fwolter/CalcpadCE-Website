@@ -106,10 +106,10 @@
         }
 
         .btn-primary {
-            background: #e8501a;
+            background: #c4410e;
             color: #fff;
         }
-        .btn-primary:hover { background: #d0440f; }
+        .btn-primary:hover { background: #a83609; }
 
         .btn-ghost {
             background: transparent;
@@ -149,8 +149,8 @@
             text-align: center;
         }
 
-        .downloads h2 {
-            font-size: 16px;
+        h2 {
+            font-size: 20px;
             color: #111827;
             margin-bottom: 12px;
             font-weight: 700;
@@ -217,7 +217,7 @@
         }
         .resize-handle:hover,
         .resize-handle.active {
-            background: #e8501a;
+            background: #c4410e;
         }
 
         .pane {
@@ -318,10 +318,10 @@
             padding: 0 16px 16px;
         }
 
-        .setting-group h4 {
+        .setting-group h3 {
             font-size: 11px;
             font-weight: 700;
-            color: #e8501a;
+            color: #b33d0c;
             text-transform: uppercase;
             letter-spacing: 0.6px;
             margin-bottom: 10px;
@@ -351,9 +351,9 @@
         }
         .field select:focus,
         .field input[type="number"]:focus {
-            border-color: #e8501a;
+            border-color: #c4410e;
             outline: none;
-            box-shadow: 0 0 0 2px rgba(232, 80, 26, 0.15);
+            box-shadow: 0 0 0 2px rgba(196, 65, 14, 0.15);
         }
 
         .field-check {
@@ -364,7 +364,7 @@
             font-size: 12px;
             color: #6b7280;
         }
-        .field-check input[type="checkbox"] { accent-color: #e8501a; }
+        .field-check input[type="checkbox"] { accent-color: #c4410e; }
 
         .settings-actions {
             display: flex;
@@ -385,13 +385,6 @@
             margin: 0 auto;
         }
 
-        .about h2 {
-            font-size: 16px;
-            color: #111827;
-            margin-bottom: 16px;
-            font-weight: 700;
-        }
-
         .about p {
             font-size: 14px;
             line-height: 1.7;
@@ -399,7 +392,7 @@
             margin-bottom: 12px;
         }
 
-        .about strong { color: #e8501a; font-weight: 600; }
+        .about strong { color: #b33d0c; font-weight: 600; }
 
         /* ── Header nav links ── */
         .nav-links {
@@ -441,13 +434,6 @@
             max-width: 900px;
             margin: 0 auto;
             text-align: center;
-        }
-
-        .community h2 {
-            font-size: 20px;
-            color: #111827;
-            margin-bottom: 8px;
-            font-weight: 700;
         }
 
         .community > .community-inner > p {
@@ -513,7 +499,7 @@
             gap: 4px;
             font-size: 13px;
             font-weight: 600;
-            color: #e8501a;
+            color: #b33d0c;
             text-decoration: none;
         }
         .community-card .card-link:hover {
@@ -585,14 +571,14 @@
             align-items: center;
             justify-content: space-between;
             font-size: 12px;
-            color: #6b7280;
+            color: #9ca3af;
         }
 
         .footer-bottom a {
-            color: #6b7280;
+            color: #9ca3af;
             text-decoration: none;
         }
-        .footer-bottom a:hover { color: #9ca3af; }
+        .footer-bottom a:hover { color: #fff; }
 
         /* ── Responsive ── */
         @media (max-width: 768px) {
@@ -661,7 +647,7 @@
         <summary>Settings</summary>
         <div class="settings-grid">
             <div class="setting-group">
-                <h4>Math</h4>
+                <h3>Math</h3>
                 <div class="field">
                     <label for="decimals">Decimal Places</label>
                     <input type="number" id="decimals" min="0" max="15" value="6">
@@ -680,7 +666,7 @@
             </div>
 
             <div class="setting-group">
-                <h4>Plot</h4>
+                <h3>Plot</h3>
                 <div class="field">
                     <label for="colorScale">Color Scale</label>
                     <select id="colorScale">
@@ -710,7 +696,7 @@
             </div>
 
             <div class="setting-group">
-                <h4>Display</h4>
+                <h3>Display</h3>
                 <div class="field">
                     <label for="theme">Theme</label>
                     <select id="theme">
