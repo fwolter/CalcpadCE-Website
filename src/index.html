@@ -969,11 +969,12 @@
             } catch (error) {
                 console.error('Error:', error);
 
-                resultFrame.innerHTML = `
-                    <div style="padding: 1.25rem; color: var(--color-error-text); background: var(--color-error-bg); border-left: 3px solid var(--color-accent); margin: 1rem;">
-                        <strong>Error:</strong> ${error.message}
-                    </div>
-                `;
+                const errorDiv = document.createElement('div');
+                errorDiv.style.cssText = 'padding: 1.25rem; color: var(--color-error-text); background: var(--color-error-bg); border-left: 3px solid var(--color-accent); margin: 1rem;';
+                errorDiv.innerHTML = '<strong>Error:</strong> ';
+                errorDiv.appendChild(document.createTextNode(error.message));
+                resultFrame.innerHTML = '';
+                resultFrame.appendChild(errorDiv);
             } finally {
                 if (!auto) {
                     convertBtn.disabled = false;
