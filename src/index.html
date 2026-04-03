@@ -698,7 +698,7 @@
         </div>
     </div>
 
-    <div class="resize-handle" id="resizeHandle" role="separator" aria-label="Resize editor panes" tabindex="0"></div>
+    <div class="resize-handle" id="resizeHandle" role="separator" aria-label="Resize editor panes" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" tabindex="0"></div>
 
     <details class="settings-drawer">
         <summary>Settings</summary>
@@ -1060,6 +1060,7 @@
             function onDrag(e) {
                 const newH = Math.max(200, startH + e.clientY - startY);
                 editor.style.height = newH + 'px';
+                handle.setAttribute('aria-valuenow', Math.round(newH / window.innerHeight * 100));
             }
             function stopDrag() {
                 handle.classList.remove('active');
