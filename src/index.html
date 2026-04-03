@@ -175,8 +175,46 @@
 
         section {
             border-top: 1px solid var(--color-border);
-            padding: 32px max(24px, calc((100% - 720px) / 2));
+            padding: 48px max(24px, calc((100% - 900px) / 2));
             flex-shrink: 0;
+        }
+
+        .what-is {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: center;
+        }
+
+        .what-is p {
+            font-size: 15px;
+            line-height: 1.7;
+            color: var(--color-text);
+        }
+
+        .what-is img {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
+            box-shadow: 0 4px 16px oklch(0% 0 0 / 0.06);
+            cursor: pointer;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+
+        .lightbox {
+            border: none;
+            padding: 0;
+            background: none;
+            max-width: 90vw;
+            max-height: 90vh;
+            margin: auto;
+        }
+        .lightbox::backdrop { background: oklch(0% 0 0 / 0.7); cursor: zoom-out; }
+        .lightbox img {
+            max-width: 90vw;
+            max-height: 90vh;
+            border-radius: 8px;
+            cursor: zoom-out;
         }
 
         .downloads {
@@ -449,7 +487,6 @@
         /* Community section */
         .community {
             background: var(--color-white);
-            padding: 48px max(24px, calc((100% - 900px) / 2));
             text-align: center;
         }
 
@@ -477,7 +514,8 @@
             color: inherit;
             transition: var(--transition), border-color 0.15s, box-shadow 0.15s;
         }
-        .community-cards > a:hover {
+        .community-cards > a:hover,
+        .what-is img:hover {
             border-color: var(--color-border);
             box-shadow: 0 6px 20px oklch(0% 0 0 / 0.08);
         }
@@ -722,6 +760,18 @@
             <button onclick="resetSettings()" class="btn-ghost">Reset Settings</button>
         </div>
     </details>
+
+    <section class="what-is">
+            <div>
+                <h2>What is CalcpadCE?</h2>
+                <p>CalcpadCE is an open-source tool for mathematical and engineering calculations. Write your formulas in a simple, readable syntax and get beautifully rendered output with plots, diagrams, and formatted results — all in real time. For Desktop, Web and Visual Studio Code.</p>
+            </div>
+            <img src="Sample.png" alt="CalcpadCE showing an elastic slab analysis with code on the left and rendered output with deflection and bending moment plots on the right" loading="lazy" onclick="document.getElementById('lightbox').showModal()">
+    </section>
+
+    <dialog id="lightbox" class="lightbox" onclick="this.close()">
+        <img src="Sample.png" alt="CalcpadCE screenshot">
+    </dialog>
 
     <section class="downloads">
             <h2>Get Calcpad for Your Desktop</h2>
