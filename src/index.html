@@ -182,12 +182,21 @@
             display: inline-flex;
             align-items: center;
             align-self: flex-start;
+            gap: 0.875rem;
             font-family: inherit;
-            font-size: 0.875rem;
+            font-size: 0.9rem;
             font-weight: 600;
             border-radius: 0.375rem;
-            padding: 0.75rem 1.5rem;
+            padding: 0.875rem 1.25rem;
+            margin-top: 1rem;
             transition: var(--transition);
+        }
+
+        .btn-download svg,
+        .btn-download img {
+            width: 1rem;
+            height: 1rem;
+            filter: brightness(0) invert(1);
         }
 
         .btn-download:hover {
@@ -212,6 +221,10 @@
             font-size: 0.9375rem;
             line-height: 1.7;
             color: var(--color-text);
+        }
+
+        .what-is p a {
+            color: var(--color-accent-text);
         }
 
         .what-is img {
@@ -274,8 +287,12 @@
         .community-cards>a {
             border: 1px solid var(--color-border);
             border-radius: 0.625rem;
-            padding: 1.75rem 1.5rem;
+            padding: 1.5rem;
             text-align: left;
+        }
+
+        .community-cards>a {
+            padding: 1.75rem 1.5rem;
         }
 
         .download-card {
@@ -616,14 +633,9 @@
             height: 1.25rem;
         }
 
-        .card-icon.windows {
-            background: oklch(0.75 0.1 250 / 0.15);
-            color: oklch(0.55 0.15 250);
-        }
-
+        .card-icon.windows,
         .card-icon.vscode {
             background: oklch(0.75 0.1 250 / 0.15);
-            color: oklch(0.55 0.15 250);
         }
 
         .card-icon.github {
@@ -919,7 +931,8 @@
                 <h2>What is CalcpadCE?</h2>
                 <p>CalcpadCE is an open-source tool for mathematical and engineering calculations. Write your formulas in a simple, readable syntax and get beautifully rendered
                     output with plots, diagrams, and formatted results — all in real time. For Desktop, Web and Visual Studio Code.</p>
-                <p>This is a fork of the discontinued Calcpad (March 2026). See below.</p>
+                <p>This is a fork of the <a href="#about">discontinued</a> Calcpad (March 2026).</p>
+                <a href="https://imartincei.github.io/CalcpadCE/" class="btn-download">View Documentation</a>
             </div>
             <img src="Sample.avif" alt="CalcpadCE showing an elastic slab analysis with code on the left and rendered output with deflection and bending moment plots on the right"
                 loading="lazy" tabindex="0" role="button" onclick="document.getElementById('lightbox').showModal()"
@@ -935,21 +948,21 @@
             <div class="download-cards">
                 <div class="download-card">
                     <div class="card-icon windows">
-                        <svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
-                            <path d="M0 2.3l6.5-.9v6.3H0V2.3zm7.3-1l8.7-1.3v7.6H7.3V1.3zM16 8.4v7.6l-8.7-1.2V8.4H16zM6.5 14.7L0 13.8V8.4h6.5v6.3z" />
-                        </svg>
+                        <img aria-hidden="true" src="icons/windows.svg" alt="" loading="lazy">
                     </div>
                     <h3>Calcpad Desktop (Windows)</h3>
                     <p>The last open-source release of the original Calcpad desktop application. A fully featured Windows app for mathematical and engineering calculations.</p>
-                    <a href="https://github.com/imartincei/CalcpadCE/releases/tag/v7.6.2" class="btn-download">&#11015; Download Desktop</a>
+                    <a href="https://github.com/imartincei/CalcpadCE/releases/download/v7.6.3/CalcpadCE-setup-7.6.3.exe" class="btn-download"><img aria-hidden="true"
+                            src="icons/windows.svg" alt=""> Download for Windows</a>
                 </div>
                 <div class="download-card">
                     <div class="card-icon vscode">
                         <img aria-hidden="true" src="icons/vscode.svg" alt="" loading="lazy">
                     </div>
-                    <h3>CalcpadCE for VS Code</h3>
-                    <p>The community-driven VS Code extension bringing Calcpad to your favorite editor. Cross-platform, actively developed, and open source.</p>
-                    <a href="https://github.com/imartincei/CalcpadCE/releases/tag/vscode-0.1.4" class="btn-download">&#11015; Get Extension</a>
+                    <h3>CalcpadCE for Visual Studio Code</h3>
+                    <p>The community-driven Visual Studio Code extension bringing Calcpad to your favorite editor. Cross-platform, actively developed, and open source.</p>
+                    <a href="https://github.com/imartincei/CalcpadCE/releases/tag/vscode-0.1.4" class="btn-download"><img aria-hidden="true" src="icons/vscode.svg" alt=""> Get
+                        VSC Extension</a>
                 </div>
             </div>
         </section>
@@ -994,7 +1007,7 @@
             </div>
         </section>
 
-        <section class="about">
+        <section class="about" id="about">
             <h2>What Happened to the Original Calcpad?</h2>
             <p>Following a shift to a closed-source model by its original creator, the public repository and the website for Calcpad were taken offline.</p>
             <p>Fortunately, with the original author's blessing, our community stepped up to fork the project and continue its open-source development. We restored the final
