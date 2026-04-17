@@ -1257,7 +1257,7 @@
             window.onload = function () {
                 loadSettings();
                 const saved = localStorage.getItem('calcpadInput');
-                document.getElementById('calcpadInput').value = saved || '1 + 1\n\nf(x) = x^2 - 5*x + 3\n$Plot{f(x) @ x = -1:6}';
+                document.getElementById('calcpadInput').value = saved || 'L = 5m\nF = 5lbf/ft\nM = F*L^2/4\n\n1 + 1\n\nf(x) = x^2 - 5*x + 3\n$Plot{f(x) @ x = -1 : 6}';
                 convertToHtml(true);
 
                 const textarea = document.getElementById('calcpadInput');
