@@ -191,6 +191,10 @@
             transition: var(--transition);
         }
 
+        .btn-download+.btn-download {
+            margin-left: 1.5rem;
+        }
+
         .btn-download svg,
         .btn-download img {
             width: 1rem;
@@ -200,6 +204,14 @@
 
         .btn-download:hover {
             background: var(--color-accent-hover);
+            color: var(--color-white);
+            border-color: var(--color-accent-hover);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
         }
 
         section,
@@ -932,6 +944,7 @@
                     output with plots, diagrams, and formatted results — all in real time. For Desktop, Web and Visual Studio Code.</p>
                 <p>This is a fork of the now <a href="#about">closed-source</a> Calcpad (March 2026).</p>
                 <a href="https://imartincei.github.io/CalcpadCE/" class="btn-download">View Documentation</a>
+                <a href="https://imartincei.github.io/CalcpadCE/quick-reference.html" class="btn-download btn-secondary">Quick Reference</a>
             </div>
             <img src="Sample.avif" alt="CalcpadCE showing an elastic slab analysis with code on the left and rendered output with deflection and bending moment plots on the right"
                 loading="lazy" tabindex="0" role="button" onclick="document.getElementById('lightbox').showModal()"
