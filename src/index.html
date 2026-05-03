@@ -101,6 +101,19 @@
             margin-block: 1em;
         }
 
+        select {
+            width: 100%;
+            min-height: 2.75rem;
+            border: 1px solid var(--color-border);
+            border-radius: 0.5rem;
+            background: var(--color-white);
+            color: var(--color-text);
+            font-family: inherit;
+            font-size: 0.8125rem;
+            padding: 0.625rem 0.75rem;
+            margin-bottom: 1rem;
+        }
+
         /* Header */
         header {
             background: var(--color-white);
@@ -194,17 +207,21 @@
             margin-left: 1.5rem;
         }
 
-        .btn-download svg,
-        .btn-download img {
-            width: 1rem;
-            height: 1rem;
-            filter: brightness(0) invert(1);
-        }
-
         .btn-download:hover {
             background: var(--color-accent);
             color: var(--color-white);
             border-color: var(--color-accent);
+        }
+
+        .btn-download img {
+            width: 1rem;
+            height: 1rem;
+            filter: grayscale(1) brightness(0.6) contrast(1000) invert(1);
+            mix-blend-mode: lighten;
+        }
+
+        .desktop-downloads .btn-download {
+            margin-top: auto;
         }
 
         .btn-secondary {
@@ -321,10 +338,25 @@
 
         .download-card p {
             font-size: 0.8125rem;
-            color: var(--color-text-muted);
-            margin-bottom: 1rem;
             line-height: 1.6;
             flex: 1;
+        }
+
+        :root:has(option[data-os="linux"]:checked) .windows,
+        :root:has(option[data-os="windows"]:checked) .linux {
+            display: none;
+        }
+
+        .desktop-noscript-list {
+            list-style: none;
+            margin-top: 0.75rem;
+            padding: 0;
+            font-size: 0.8125rem;
+            line-height: 1.8;
+        }
+
+        .desktop-noscript-list a {
+            color: var(--color-accent);
         }
 
         button:disabled {
@@ -630,6 +662,7 @@
         .card-icon {
             width: 2.5rem;
             height: 2.5rem;
+            background: oklch(0.75 0.1 250 / 0.15);
             border-radius: 0.5rem;
             display: flex;
             align-items: center;
@@ -641,11 +674,6 @@
         .card-icon img {
             width: 1.25rem;
             height: 1.25rem;
-        }
-
-        .card-icon.windows,
-        .card-icon.vscode {
-            background: oklch(0.75 0.1 250 / 0.15);
         }
 
         .card-icon.github {
@@ -957,18 +985,60 @@
         <section class="downloads">
             <h2>Get Calcpad for Your Desktop</h2>
             <div class="download-cards">
-                <div class="download-card">
-                    <div class="card-icon windows">
-                        <img aria-hidden="true" src="icons/windows.svg" alt="" loading="lazy">
+                <div class="download-card desktop-downloads">
+                    <div class="card-icon">
+                        <img class="windows" aria-hidden="true" src="icons/windows.svg" alt="">
+                        <img class="linux" aria-hidden="true" src="icons/linux.svg" alt="">
                     </div>
-                    <h3>Calcpad Desktop (Windows)</h3>
-                    <p>The last open-source release of the original Calcpad desktop application. A fully featured Windows app for mathematical and engineering calculations.</p>
-                    <a href="https://github.com/imartincei/CalcpadCE/releases/download/v7.6.3/CalcpadCE-setup-7.6.3.exe" class="btn-download"><img aria-hidden="true"
-                            src="icons/windows.svg" alt=""> Download for Windows</a>
+                    <h3>CalcpadCE for Desktop</h3>
+                    <p>Download the native Desktop application. Please note that Linux packages are command-line only.</p>
+                    <select id="desktopVariant" aria-label="Desktop package variant">
+                        <option value="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE-setup-{{VERSION}}.exe" data-os="windows"
+                            data-variant="windows-installer" selected>Windows Installer (64-bit)</option>
+                        <option value="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE-portable-{{VERSION}}.zip" data-os="windows"
+                            data-variant="windows-portable">Windows Portable (64-bit)</option>
+                        <option value="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE.{{VERSION}}.linux-x64.deb" data-os="linux"
+                            data-variant="linux-deb-x64">Debian/Ubuntu (64-bit .deb, command-line)</option>
+                        <option value="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE.{{VERSION}}.linux-arm64.deb" data-os="linux"
+                            data-variant="linux-deb-arm64">Debian/Ubuntu (ARM .deb, command-line)</option>
+                        <option value="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE.{{VERSION}}.linux-x64.rpm" data-os="linux"
+                            data-variant="linux-rpm-x64">CentOS/Fedora (64-bit .rpm, command-line)</option>
+                        <option value="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE.{{VERSION}}.linux-arm64.rpm" data-os="linux"
+                            data-variant="linux-rpm-arm64">CentOS/Fedora (ARM .rpm, command-line)</option>
+                        <option value="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE-{{VERSION}}-linux-x64.tar.bz2" data-os="linux"
+                            data-variant="linux-portable-x64">Portable Linux (64-bit .tar.bz2, command-line)</option>
+                        <option value="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE-{{VERSION}}-linux-arm64.tar.bz2" data-os="linux"
+                            data-variant="linux-portable-arm64">Portable Linux (ARM .tar.bz2, command-line)</option>
+                    </select>
+                    <a id="desktopDownloadBtn" class="btn-download" href="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE-setup-{{VERSION}}.exe">
+                        <img class="windows" aria-hidden="true" src="icons/windows.svg" alt="">
+                        <img class="linux" aria-hidden="true" src="icons/linux.svg" alt="">
+                        <span class="windows">Download for Windows</span>
+                        <span class="linux">Download for Linux</span>
+                    </a>
+                    <noscript>
+                        <ul class="desktop-noscript-list">
+                            <li><a href="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE-setup-{{VERSION}}.exe">Windows Installer (64-bit)</a></li>
+                            <li><a href="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE-portable-{{VERSION}}.zip">Windows Portable (64-bit)</a>
+                            </li>
+                            <li><a href="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE.{{VERSION}}.linux-x64.deb">Debian/Ubuntu (64-bit .deb)</a>
+                            </li>
+                            <li><a href="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE.{{VERSION}}.linux-arm64.deb">Debian/Ubuntu (ARM .deb)</a>
+                            </li>
+                            <li><a href="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE.{{VERSION}}.linux-x64.rpm">CentOS/Fedora (64-bit .rpm)</a>
+                            </li>
+                            <li><a href="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE.{{VERSION}}.linux-arm64.rpm">CentOS/Fedora (ARM .rpm)</a>
+                            </li>
+                            <li><a href="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE-{{VERSION}}-linux-x64.tar.bz2">Portable Linux (64-bit
+                                    .tar.bz2)</a></li>
+                            <li><a href="https://github.com/imartincei/CalcpadCE/releases/download/v{{VERSION}}/CalcpadCE-{{VERSION}}-linux-arm64.tar.bz2">Portable Linux (ARM
+                                    .tar.bz2)</a></li>
+                        </ul>
+                    </noscript>
                 </div>
                 <div class="download-card">
                     <div class="card-icon vscode">
-                        <img aria-hidden="true" src="icons/vscode.svg" alt="" loading="lazy">
+                        <img aria-hidden="true" src="icons/vscode.svg" alt="">
                     </div>
                     <h3>CalcpadCE for Visual Studio Code</h3>
                     <p>The community-driven Visual Studio Code extension bringing Calcpad to your favorite editor. Cross-platform, actively developed, and open source.</p>
@@ -1229,6 +1299,34 @@
                 } catch (e) { /* ignore corrupt data */ }
             }
 
+            function initDesktopDownloadSelector() {
+                const button = document.getElementById('desktopDownloadBtn');
+                const select = document.getElementById('desktopVariant');
+
+                function selectVariant(variantName) {
+                    select.value = select.querySelector(`option[data-variant="${variantName}"]`).value;
+                }
+
+                function applySelection() {
+                    button.href = select.options[select.selectedIndex].value;
+                }
+
+                const userAgentData = navigator.userAgentData;
+                const ua = ((navigator.userAgent || '') + ' ' + (navigator.platform || '')).toLowerCase();
+                const platform = (userAgentData && userAgentData.platform ? userAgentData.platform : '').toLowerCase();
+                const isLinux = platform.includes('linux') || ua.includes('linux');
+                const isWindows = platform.includes('win') || ua.includes('windows');
+                const isArm = ua.includes('arm') || ua.includes('aarch64');
+
+                if (isLinux)
+                    selectVariant(isArm ? 'linux-portable-arm64' : 'linux-portable-x64');
+                else if (isWindows)
+                    selectVariant('windows-installer');
+
+                applySelection();
+                select.addEventListener('change', applySelection);
+            }
+
             // Drag-to-resize editor
             (function () {
                 const handle = document.getElementById('resizeHandle');
@@ -1267,6 +1365,7 @@
             // Load saved input or default, and set up cursor tracking
             window.onload = function () {
                 loadSettings();
+                initDesktopDownloadSelector();
                 const saved = localStorage.getItem('calcpadInput');
                 document.getElementById('calcpadInput').value = saved || '1 + 1\n\nf(x) = x^2 - 5*x + 3\n$Plot{f(x) @ x = -1:6}';
                 convertToHtml(true);
