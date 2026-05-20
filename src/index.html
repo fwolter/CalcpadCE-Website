@@ -77,6 +77,8 @@
             --color-forum: oklch(60% 0.13 163);
             --color-forum-bg: oklch(98% 0.02 166);
 
+            --font-small: 0.8125rem;
+
             --transition: color 0.15s, background 0.15s;
         }
 
@@ -90,8 +92,10 @@
 
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: var(--color-bg-shaded);
+            font-size: 0.9375rem;
             color: var(--color-text);
+            line-height: 1.7;
+            background: var(--color-bg-shaded);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -101,17 +105,28 @@
             margin-block: 1em;
         }
 
+        a {
+            color: var(--color-accent);
+        }
+
+        strong {
+            font-weight: 600;
+        }
+
         select {
             width: 100%;
             min-height: 2.75rem;
             border: 1px solid var(--color-border);
             border-radius: 0.5rem;
             background: var(--color-white);
-            color: var(--color-text);
             font-family: inherit;
-            font-size: 0.8125rem;
+            font-size: var(--font-small);
             padding: 0.625rem 0.75rem;
             margin-bottom: 1rem;
+        }
+
+        span[title="Animated"] {
+            cursor: default;
         }
 
         /* Header */
@@ -129,6 +144,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            line-height: initial;
         }
 
         .brand img {
@@ -143,7 +159,7 @@
         }
 
         .brand span {
-            font-size: 0.75rem;
+            font-size: var(--font-small);
             color: var(--color-text-muted);
             font-weight: 400;
         }
@@ -157,13 +173,18 @@
         /* Buttons */
         button {
             font-family: inherit;
-            font-size: 0.75rem;
+            font-size: var(--font-small);
             font-weight: 600;
             border: none;
             border-radius: 0.375rem;
             padding: 0.5rem 1rem;
             cursor: pointer;
             transition: var(--transition);
+        }
+
+        button:has(img) {
+            background: inherit;
+            padding: 0;
         }
 
         .btn-primary {
@@ -183,7 +204,6 @@
 
         .btn-ghost:hover {
             background: var(--color-bg-shaded);
-            color: var(--color-text);
         }
 
         .btn-download {
@@ -230,113 +250,138 @@
             border: 1px solid var(--color-border);
         }
 
+        section:nth-of-type(even) {
+            background: var(--color-white);
+        }
+
+        section:nth-of-type(even) .card {
+            background: var(--color-bg-shaded);
+        }
+
+        section:nth-of-type(odd) .card {
+            background: var(--color-white);
+        }
+
         section,
-        .site-footer {
+        footer {
             border-top: 1px solid var(--color-border);
             padding: 3rem max(1.5rem, calc((100% - 55rem) / 2));
-            flex-shrink: 0;
         }
 
-        .what-is {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
+        .col-2 {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            padding-top: 2rem;
+        }
+
+        .col-2>* {
+            flex: 1;
+            min-width: 360px;
+        }
+
+        .col-2:not(:has(.card+.card)) {
             gap: 2rem;
-            align-items: center;
         }
 
-        .what-is p {
-            font-size: 0.9375rem;
-            line-height: 1.7;
-            color: var(--color-text);
-        }
-
-        .what-is p a {
-            color: var(--color-accent);
-        }
-
-        .what-is img {
-            max-width: 100%;
+        .col-2>button img,
+        .col-2>figure>button img,
+        .large-number {
+            width: 100%;
             border-radius: 0.5rem;
             border: 1px solid var(--color-border);
-            box-shadow: 0 0.25rem 1rem oklch(0% 0 0 / 0.06);
+            box-shadow: 0 0.25rem 2rem oklch(0% 0 0 / 0.09);
             cursor: pointer;
             transition: border-color 0.15s, box-shadow 0.15s;
         }
 
+        .col-2 img:hover,
+        .col-2>a:hover {
+            box-shadow: 0 0.25rem 2rem oklch(0% 0 0 / 0.15);
+        }
+
+        .large-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            text-decoration: none;
+            font-weight: bold;
+            color: var(--color-text);
+            aspect-ratio: 16 / 9;
+        }
+
+
+        .col-2 dialog img {
+            cursor: zoom-out;
+        }
+
+        .col-2+.col-2 {
+            margin-top: 5rem;
+        }
+
+        .examples .col-2:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        figcaption {
+            font-size: var(--font-small);
+            color: var(--color-text-muted);
+            margin-top: -0.25rem;
+        }
+
         .lightbox {
             border: none;
-            padding: 0;
             background: none;
-            max-width: 90vw;
-            max-height: 90vh;
-            margin: auto;
+            max-width: 100%;
+            max-height: 100%;
         }
 
         .lightbox::backdrop {
             background: oklch(0% 0 0 / 0.7);
+        }
+
+        .lightbox button {
+            width: 100vw;
+            height: 100vh;
             cursor: zoom-out;
         }
 
         .lightbox img {
             max-width: 90vw;
             max-height: 90vh;
-            border-radius: 0.5rem;
-            cursor: zoom-out;
+            border-radius: 0.7rem;
         }
 
-        .downloads {
-            background: var(--color-bg-shaded);
-            text-align: center;
-        }
-
-        h2 {
+        h2,
+        h3 {
             font-size: 1.25rem;
             color: var(--color-text-heading);
-            margin-bottom: 0.75rem;
             font-weight: 700;
         }
 
-        .downloads p {
-            font-size: 0.875rem;
-            line-height: 1.7;
+        section>h2 {
+            font-size: 1.75rem;
+        }
+
+        section:has(:is(.card, .col-2)) h2 {
+            text-align: center;
+        }
+
+        .card {
             color: var(--color-text-muted);
-            margin-bottom: 1rem;
-        }
-
-        .download-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1.25rem;
-            margin-top: 1.5rem;
-        }
-
-        .download-card,
-        .community-cards>a {
             border: 1px solid var(--color-border);
             border-radius: 0.625rem;
             padding: 1.5rem;
-            text-align: left;
-        }
-
-        .community-cards>a {
-            padding: 1.75rem 1.5rem;
-        }
-
-        .download-card {
-            background: var(--color-white);
             display: flex;
             flex-direction: column;
         }
 
-        .download-card h3,
-        .community-cards>a h3 {
+        .card h3 {
             font-size: 1rem;
-            font-weight: 700;
-            color: var(--color-text-heading);
-            margin-bottom: 0.5rem;
         }
 
-        .download-card p {
+        .card p {
             font-size: 0.8125rem;
             line-height: 1.6;
             flex: 1;
@@ -544,7 +589,6 @@
             width: 100%;
             padding: 0.3125rem 0.5rem;
             background: var(--color-white);
-            color: var(--color-text);
             border: 1px solid var(--color-border);
             border-radius: 0.25rem;
             font-size: 0.8125rem;
@@ -578,21 +622,9 @@
         }
 
         /* About section */
-        .about {
-            background: var(--color-white);
+        #about {
             padding: 3rem max(1.5rem, calc((100% - 70ch) / 2));
-        }
-
-        .about p {
-            font-size: 0.875rem;
-            line-height: 1.7;
             color: var(--color-text-muted);
-            margin-bottom: 0.75rem;
-        }
-
-        .about strong {
-            color: var(--color-accent);
-            font-weight: 600;
         }
 
         /* Header nav links */
@@ -627,35 +659,27 @@
         }
 
         /* Community section */
-        .community {
-            background: var(--color-white);
-            text-align: center;
-        }
-
-        .community>p {
+        .subtitle {
             font-size: 0.875rem;
             color: var(--color-text-muted);
-            margin-bottom: 1.75rem;
             line-height: 1.6;
+            text-align: center;
+            margin-block: 1.5rem;
         }
 
-        .community-cards {
+        .col-3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1.25rem;
+            padding-top: 1rem;
         }
 
-        .community-cards>a {
-            display: block;
-            background: var(--color-bg-shaded);
+        a.card {
             text-decoration: none;
-            color: inherit;
-            transition: var(--transition), border-color 0.15s, box-shadow 0.15s;
+            transition: box-shadow 0.15s;
         }
 
-        .community-cards>a:hover,
-        .what-is img:hover {
-            border-color: var(--color-border);
+        a.card:hover {
             box-shadow: 0 0.375rem 1.25rem oklch(0% 0 0 / 0.08);
         }
 
@@ -691,34 +715,40 @@
             color: var(--color-forum);
         }
 
-        .community-cards>a p {
-            font-size: 0.8125rem;
-            color: var(--color-text-muted);
-            line-height: 1.6;
-            margin-bottom: 1rem;
-        }
-
-        .community-cards .card-link {
+        .inline-cta {
+            position: relative;
             display: inline-flex;
-            align-items: center;
             gap: 0.375rem;
-            font-size: 0.8125rem;
+            font-size: var(--font-small);
             font-weight: 600;
             color: var(--color-accent);
         }
 
-        .community-cards .card-link::after {
+        .inline-cta::before {
+            content: '';
+            position: absolute;
+            inset: -0.75rem;
+        }
+
+        .inline-cta::after {
             content: '\2192';
             display: inline-block;
             transition: translate 0.15s ease;
         }
 
-        .community-cards>a:hover .card-link::after {
+        .card:hover .inline-cta::after,
+        a.inline-cta:hover::after {
             translate: 0.25rem 0;
         }
 
+        a.inline-cta,
+        a.inline-cta:hover::after {
+            font-size: inherit;
+            text-decoration: none;
+        }
+
         /* Footer */
-        .site-footer {
+        footer {
             background: var(--color-bg-dark);
             color: var(--color-text-dark);
             padding-bottom: 1.5rem;
@@ -761,13 +791,13 @@
             margin-bottom: 0.5rem;
         }
 
-        .site-footer a {
+        footer a {
             color: var(--color-text-dark);
             text-decoration: none;
             transition: var(--transition);
         }
 
-        .site-footer a:hover {
+        footer a:hover {
             color: var(--color-white);
         }
 
@@ -787,10 +817,6 @@
 
         /* Responsive */
         @media (max-width: 48em) {
-            .download-cards {
-                grid-template-columns: 1fr;
-            }
-
             .editor {
                 grid-template-columns: 1fr;
             }
@@ -814,20 +840,13 @@
                 width: 100%;
             }
 
-            .community-cards {
-                grid-template-columns: 1fr;
-            }
-
-            .download-cards {
-                grid-template-columns: 1fr;
-            }
-
             .footer-cols {
                 grid-template-columns: 1fr 1fr;
                 gap: 1.5rem;
             }
 
-            .what-is {
+            .col-2,
+            .col-3 {
                 grid-template-columns: 1fr;
             }
         }
@@ -964,7 +983,7 @@
             </div>
         </details>
 
-        <section class="what-is">
+        <section class="col-2">
             <div>
                 <h2>What is CalcpadCE?</h2>
                 <p>CalcpadCE is an open-source tool for mathematical and engineering calculations. Write your formulas in a simple, readable syntax and get beautifully rendered
@@ -973,19 +992,142 @@
                 <a href="https://imartincei.github.io/CalcpadCE/" class="btn-download">View Documentation</a>
                 <a href="https://imartincei.github.io/CalcpadCE/quick-reference.html" class="btn-download btn-secondary">Quick Reference</a>
             </div>
-            <img src="Sample.avif" alt="CalcpadCE showing an elastic slab analysis with code on the left and rendered output with deflection and bending moment plots on the right"
-                loading="lazy" tabindex="0" role="button" onclick="document.getElementById('lightbox').showModal()"
-                onkeydown="if(event.key==='Enter')document.getElementById('lightbox').showModal()">
+            <button command="show-modal" commandfor="enlarged-screenshot">
+                <img src="Sample.avif" loading="lazy" style="border-radius: 4px"
+                    alt="Enlarge: CalcpadCE screenshot showing an elastic slab analysis with code on the left and rendered output with deflection and bending moment plots on the right" />
+            </button>
+            <dialog id="enlarged-screenshot" class="lightbox" aria-label="Enlarged CalcpadCE screenshot">
+                <button command="close" commandfor="enlarged-screenshot">
+                    <img src="Sample.avif" loading="lazy" alt="Close" />
+                </button>
+            </dialog>
         </section>
 
-        <dialog id="lightbox" class="lightbox" aria-label="Enlarged screenshot" onclick="this.close()">
-            <img src="Sample.avif" alt="CalcpadCE screenshot">
-        </dialog>
+        <section class="examples">
+            <h2>Examples</h2>
+            <p class="subtitle">Real worksheets across maths, physics and engineering. Click a thumbnail to enlarge, follow the link to open the live example.</p>
+            <div class="col-2">
+                <div>
+                    <h3>Getting Started</h3>
+                    <p>Write math the way you'd jot it on paper. No syntax to memorise, no formula editor to fight: variables, units and built-in constants just work, and every
+                        result updates the moment you change an input.</p>
+                    <a href="https://imartincei.github.io/CalcpadCE/examples/getting-started.html#unit-conversion" class="inline-cta">View unit conversion examples and more</a>
+                </div>
+                <figure>
+                    <button command="show-modal" commandfor="enlarged-getting-started">
+                        <img src="getting-started.avif" loading="lazy"
+                            alt="Enlarge: CalcpadCE source on the left with commented expressions (arithmetic, comparisons, variables, constants, an integral, matrix multiplication) rendered as a formatted worksheet on the right" />
+                    </button>
+                    <dialog id="enlarged-getting-started" class="lightbox" aria-label="Enlarged example screenshot">
+                        <button command="close" commandfor="enlarged-getting-started">
+                            <img src="getting-started.avif" loading="lazy" alt="Close" />
+                        </button>
+                    </dialog>
+                    <figcaption>Easy to use for simple math —</figcaption>
+                </figure>
+            </div>
 
-        <section class="downloads">
-            <h2>Get Calcpad for Your Desktop</h2>
-            <div class="download-cards">
-                <div class="download-card desktop-downloads">
+            <div class="col-2">
+                <div>
+                    <h3>Finite Element Analysis</h3>
+                    <p>Plane-stress FEA of a deep beam using rectangular 8-DOF elements, with a partial uniform load and elastic supports modelled by a distributed-stiffness
+                        function. Recovers the 𝜎<sub>𝑥</sub>, 𝜎<sub>𝑦</sub> and 𝜏<sub>𝑥⁢𝑦</sub> stress fields and the deflected shape on a parametric mesh.</p>
+                    <a href="https://imartincei.github.io/CalcpadCE/examples/finite-elements.html" class="inline-cta">View more examples like this</a>
+                </div>
+                <figure>
+                    <button command="show-modal" commandfor="enlarged-deep-beam-fea">
+                        <img src="deep-beam-fea.avif" loading="lazy"
+                            alt="Enlarge: CalcpadCE source defining membrane-force equations on the left, a coloured N_xy stress contour map and the deflected-shape curve of the deep beam on the right" />
+                    </button>
+                    <dialog id="enlarged-deep-beam-fea" class="lightbox" aria-label="Enlarged example screenshot">
+                        <button command="close" commandfor="enlarged-deep-beam-fea">
+                            <img src="deep-beam-fea.avif" loading="lazy" alt="Close" />
+                        </button>
+                    </dialog>
+                    <figcaption>— Built for real-world engineering.</figcaption>
+                </figure>
+            </div>
+
+            <div class="col-2">
+                <div>
+                    <h3>3D, Plotting, Animating <span title="Animated" aria-label="Animated">🎬</span></h3>
+                    <p>Animate a parametric plot frame by frame: a for loop emits one hidden
+                        div per frame, and a tiny setInterval script cycles through them in the browser. The same pattern works for any time- or parameter-dependent function.</p>
+                    <a href="https://imartincei.github.io/CalcpadCE/examples/3d-plotting-drawing.html" class="inline-cta">View this animation and explore other 3D examples</a>
+                </div>
+                <figure>
+                    <button command="show-modal" commandfor="enlarged-heart">
+                        <img src="heart.avif" loading="lazy"
+                            alt="Enlarge: CalcpadCE source with a #for loop emitting plot frames and a setInterval script on the left, and the rendered heart-shaped sinusoidal curve on the right" />
+                    </button>
+                    <dialog id="enlarged-heart" class="lightbox" aria-label="Enlarged example screenshot">
+                        <button command="close" commandfor="enlarged-heart">
+                            <img src="heart.avif" loading="lazy" alt="Close" />
+                        </button>
+                    </dialog>
+                    <figcaption>Plotting arbitrary curves</figcaption>
+                </figure>
+            </div>
+
+            <div class="col-2">
+                <div>
+                    <h3>Elasticity Analysis <span title="Animated" aria-label="Animated">🎬</span></h3>
+                    <p>Two-DOF elastic pendulum: the rigid rod is replaced by an axial spring of stiffness 𝑘<sub>𝑠</sub>, giving coupled radial and angular equations of motion
+                        with
+                        independent damping factors. RK4 integration drives the SVG animation.</p>
+                    <a href="https://imartincei.github.io/CalcpadCE/examples/pendulums.html#elastic-damped-pendulum" class="inline-cta">View this animation and explore more</a>
+                </div>
+                <figure>
+                    <button command="show-modal" commandfor="enlarged-elastic-pendulum">
+                        <img src="elastic-pendulum.avif" loading="lazy"
+                            alt="Enlarge: Time-series plots of the pendulum angle and spring length on the left, and an SVG rendering of the pendulum tracing its looping trajectory on the right" />
+                    </button>
+                    <dialog id="enlarged-elastic-pendulum" class="lightbox" aria-label="Enlarged example screenshot">
+                        <button command="close" commandfor="enlarged-elastic-pendulum">
+                            <img src="elastic-pendulum.avif" loading="lazy" alt="Close" />
+                        </button>
+                    </dialog>
+                    <figcaption>Elastic Pendulum</figcaption>
+                </figure>
+            </div>
+
+            <div class="col-2">
+                <div>
+                    <h3>Wave Simulation</h3>
+                    <p>The spatial view of the famous Double-Slit Experiment: two coherent point light sources separated by 𝑑 =3 𝜇⁢𝑚 are summed on a 2D grid to plot the full
+                        Ψ⁡(𝑥, 𝑦) field.</p>
+                    <a href="https://imartincei.github.io/CalcpadCE/examples/waves.html#interference-of-light-2-slits-general-view" class="inline-cta">View more examples like
+                        this</a>
+                </div>
+                <figure>
+                    <button command="show-modal" commandfor="enlarged-double-slit">
+                        <img src="double-slit.avif" loading="lazy"
+                            alt="Enlarge: CalcpadCE source defining the two-source wave field on the left, fully formatted derivations of the wave constants, and a 2D intensity heatmap showing the radial interference fringes on the right" />
+                    </button>
+                    <dialog id="enlarged-double-slit" class="lightbox" aria-label="Enlarged example screenshot">
+                        <button command="close" commandfor="enlarged-double-slit">
+                            <img src="double-slit.avif" loading="lazy" alt="Close" />
+                        </button>
+                    </dialog>
+                    <figcaption>Interference of Light</figcaption>
+                </figure>
+            </div>
+
+            <div class="col-2">
+                <div>
+                    <h3>Browse All Examples</h3>
+                    <p>Over 200 ready-to-run examples cover structural and geotechnical engineering, mechanics, physics, maths and more. Open one, tweak the inputs, and make it
+                        yours.</p>
+                    <a href="https://imartincei.github.io/CalcpadCE/examples/areas.html" class="inline-cta">All examples</a>
+                </div>
+                <a href="https://imartincei.github.io/CalcpadCE/examples/areas.html" class="large-number">200+</a>
+            </div>
+        </section>
+
+        <section>
+            <h2>Get CalcpadCE for Desktop</h2>
+            <div class="col-2">
+                <div class="card desktop-downloads">
                     <div class="card-icon">
                         <img class="windows" aria-hidden="true" src="icons/windows.svg" alt="">
                         <img class="linux" aria-hidden="true" src="icons/linux.svg" alt="">
@@ -1036,23 +1178,23 @@
                         </ul>
                     </noscript>
                 </div>
-                <div class="download-card">
+                <div class="card">
                     <div class="card-icon vscode">
                         <img aria-hidden="true" src="icons/vscode.svg" alt="">
                     </div>
                     <h3>CalcpadCE for Visual Studio Code</h3>
-                    <p>The community-driven Visual Studio Code extension bringing Calcpad to your favorite editor. Cross-platform, actively developed, and open source.</p>
+                    <p>The community-driven Visual Studio Code extension bringing CalcpadCE to your favorite editor. Cross-platform, actively developed, and open source.</p>
                     <a href="https://github.com/imartincei/CalcpadCE/releases/tag/vscode-0.1.4" class="btn-download"><img aria-hidden="true" src="icons/vscode.svg" alt=""> Get
                         VSC Extension</a>
                 </div>
             </div>
         </section>
 
-        <section class="community">
+        <section>
             <h2>Join the Community</h2>
-            <p>CalcpadCE is built by engineers, for engineers. Get involved, ask questions, or help shape the future of the project.</p>
-            <div class="community-cards">
-                <a href="https://github.com/imartincei/CalcpadCE">
+            <p class="subtitle">CalcpadCE is built by engineers, for engineers. Get involved, ask questions, or help shape the future of the project.</p>
+            <div class="col-3">
+                <a href="https://github.com/imartincei/CalcpadCE" class="card">
                     <div class="card-icon github">
                         <svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
                             <path
@@ -1061,9 +1203,9 @@
                     </div>
                     <h3>Contribute on GitHub</h3>
                     <p>Browse the source code, report issues, submit pull requests, or star the project to show your support.</p>
-                    <span class="card-link">View repository </span>
+                    <span class="inline-cta">View repository </span>
                 </a>
-                <a href="https://discord.gg/NMttSUhZss">
+                <a href="https://discord.gg/NMttSUhZss" class="card">
                     <div class="card-icon discord">
                         <svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
                             <path
@@ -1072,9 +1214,9 @@
                     </div>
                     <h3>Join the Discord</h3>
                     <p>Ask questions, share your work, get help from other engineers, and chat with the development team in real time.</p>
-                    <span class="card-link">Join server </span>
+                    <span class="inline-cta">Join server </span>
                 </a>
-                <a href="https://github.com/imartincei/CalcpadCE/discussions">
+                <a href="https://github.com/imartincei/CalcpadCE/discussions" class="card">
                     <div class="card-icon forum">
                         <svg aria-hidden="true" viewBox="0 0 16 16" fill="currentColor">
                             <path
@@ -1083,12 +1225,12 @@
                     </div>
                     <h3>Forum &amp; Discussions</h3>
                     <p>Start or join longer-form conversations about features, ideas, best practices, and the future direction of CalcpadCE.</p>
-                    <span class="card-link">Browse discussions </span>
+                    <span class="inline-cta">Browse discussions </span>
                 </a>
             </div>
         </section>
 
-        <section class="about" id="about">
+        <section id="about">
             <h2>What Happened to the Original Calcpad?</h2>
             <p>Following a shift to a closed-source model by its original creator, the public GitHub repository for Calcpad was taken offline.</p>
             <p>Our community stepped up to fork the project and continue its open-source development. We restored the final
@@ -1395,7 +1537,7 @@
 
     </main>
 
-    <footer class="site-footer">
+    <footer>
         <div class="footer-cols">
             <div class="footer-brand">
                 <div class="brand-name">CalcpadCE</div>
