@@ -1,0 +1,36 @@
+name: Bump Website Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "New CalcpadCE version (e.g. 7.7.0)"
+        required: true
+        type: string
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update version in Dockerfile
+        run: |
+          sed -i 's/VERSION="[^"]*"/VERSION="${{ inputs.version }}"/' Dockerfile
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          branch: bump-version/${{ inputs.version }}
+          commit-message: "chore: bump website version to ${{ inputs.version }}"
+          title: "chore: bump website version to ${{ inputs.version }}"
+          body: |
+            Bumps the CalcpadCE version displayed on the website to **${{ inputs.version }}**.
+
+            Triggered via `workflow_dispatch`.
+          labels: automated
